@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WindowBehavior
+public abstract class WindowBehavior
 {
     public GameObject gameObject { get; set; }//当前窗口物体
     public Transform transform { get; set; }//代表自己
