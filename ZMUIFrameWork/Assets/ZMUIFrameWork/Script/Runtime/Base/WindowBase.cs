@@ -39,6 +39,11 @@ public class WindowBase : WindowBehavior
         mInputFieldList.Clear();
     }
     #endregion
+    public override void SetVisible(bool isVisible)
+    {
+        gameObject.SetActive(isVisible);//临时代码
+        Visible = isVisible;
+    }
 
     #region 事件管理
     /// <summary>
