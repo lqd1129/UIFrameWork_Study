@@ -24,6 +24,22 @@ public class ZMUIMain : MonoBehaviour
         {
             Debug.Log(UISetting.Instance.SINGMASK_SYSTEM);
         }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            UIModule.Instance.PopUpWindow<AccountWIndow>();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            UIModule.Instance.PopUpWindow<SignupWIndow>();
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            UIModule.Instance.HideWindow<AccountWIndow>();
+        } 
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            UIModule.Instance.HideWindow<SignupWIndow>();
+        }
 
     }
 }
