@@ -22,15 +22,8 @@ public class ZMUIMain : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            UIModule.Instance.HideWindow<LoginWindow>();    
+            Debug.Log(UISetting.Instance.SINGMASK_SYSTEM);
         }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            UIModule.Instance.DestoryAllWindow(new List<string> { "LoginWindow"});
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            UIModule.Instance.DestroyWindow<LoginWindow>();
-        }
+
     }
 }
