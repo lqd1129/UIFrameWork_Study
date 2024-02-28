@@ -77,6 +77,7 @@ public class UIModule
         {
             mVisibleWindowList.Remove(window);
             window.SetVisible(false);
+            SetWidnowMaskVisible();
             window.OnHide();
         }
     }
@@ -106,6 +107,7 @@ public class UIModule
                 mVisibleWindowList.Remove(window);
             }
             window.SetVisible(false);
+            SetWidnowMaskVisible();
             window.OnHide();
             window.OnDestroy();
             GameObject.Destroy(window.gameObject);
@@ -153,6 +155,7 @@ public class UIModule
             mAllWindowDic.Add(wndName, windowBase);
             mAllWindowList.Add(windowBase);
             mVisibleWindowList.Add(windowBase);
+            SetWidnowMaskVisible();
             return windowBase;
         }
         Debug.LogError("没有加载到对应的窗口 窗口名字" + wndName);
@@ -174,6 +177,7 @@ public class UIModule
                 mVisibleWindowList.Add(window);
                 window.transform.SetAsLastSibling();
                 window.SetVisible(true);
+                SetWidnowMaskVisible();
                 window.OnShow();
             }
             return window;
@@ -191,6 +195,52 @@ public class UIModule
         }
         return null;    
     }
+    private void SetWidnowMaskVisible()
+    {
+        if (!UISetting.Instance.SINGMASK_SYSTEM)
+        {
+            return;
+        }
+        WindowBase maxOrderWndBase = null;//最大渲染层级的窗口
+        int maxOrder = 0;//最大渲染层级
+        int maxIndex = 0;//最大排序下标 在相同父节点下的位置下标
+        //1.关闭所有窗口的Mask 设置为不可见
+        //2.从所有可见窗口中找到一个层级最大的窗口，把Mask设置为可见
+        for (int i = 0; i < mVisibleWindowList.Count; i++)
+        {
+            WindowBase window = mVisibleWindowList[i];
+            if (window != null && window.gameObject != null)
+            {
+                window.SetMaskVisible(false);
+                if (maxOrderWndBase == null)
+                {
+                    maxOrderWndBase = window;
+                    maxOrder = window.Canvas.sortingOrder;
+                    maxIndex = window.transform.GetSiblingIndex();
+                }
+                else
+                {
+                    //找到最大渲染层级的窗口，拿到它
+                    if (maxOrder < window.Canvas.sortingOrder)
+                    {
+                        maxOrderWndBase = window;
+                        maxOrder = window.Canvas.sortingOrder;
+                    }
+                    //如果两个窗口的渲染层级相同，就找到同节点下最靠下一个物体，优先渲染Mask
+                    else if (maxOrder == window.Canvas.sortingOrder && maxIndex < window.transform.GetSiblingIndex())
+                    {
+                        maxOrderWndBase = window;
+                        maxIndex = window.transform.GetSiblingIndex();
+                    }
+                }
+            }
+        }
+        if (maxOrderWndBase != null)
+        {
+            maxOrderWndBase.SetMaskVisible(true);
+        }
+    }
+
     /// <summary>
     /// 加载窗口
     /// </summary>

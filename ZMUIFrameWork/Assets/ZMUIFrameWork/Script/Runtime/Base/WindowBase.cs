@@ -11,10 +11,20 @@ public class WindowBase : WindowBehavior
     private List<Toggle> mToggleList = new List<Toggle>();//所有的Toggle列表
     private List<TMP_InputField> mInputFieldList = new List<TMP_InputField>();//所有的输入框按钮
 
+    private CanvasGroup mUIMask;
+    private Transform mUIContent;
+
+    private void InitializeBaseComponent()
+    {
+        mUIMask = transform.Find("UIMask").GetComponent<CanvasGroup>();
+        mUIContent = transform.Find("UIContent");
+    }
+
     #region 生命周期函数
     public override void OnAwake()
     {
         base.OnAwake();
+        InitializeBaseComponent();
     }
     public override void OnShow()
     {
@@ -39,6 +49,15 @@ public class WindowBase : WindowBehavior
         mInputFieldList.Clear();
     }
     #endregion
+
+    public void SetMaskVisible(bool isVisible)
+    {
+        if (!UISetting.Instance.SINGMASK_SYSTEM)
+        {
+            return;
+        }
+        mUIMask.alpha = isVisible ? 1f : 0f;
+    }
     public override void SetVisible(bool isVisible)
     {
         gameObject.SetActive(isVisible);//临时代码
