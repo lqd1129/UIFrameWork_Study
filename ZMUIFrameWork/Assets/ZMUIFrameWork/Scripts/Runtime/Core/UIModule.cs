@@ -65,7 +65,7 @@ public class UIModule
     /// Òþ²Ø´°¿Ú
     /// </summary>
     /// <param name="wndName"></param>
-    private void HideWindow(string wndName)
+    public void HideWindow(string wndName)
     {
         WindowBase window = GetWindow(wndName);
         HideWindow(window);

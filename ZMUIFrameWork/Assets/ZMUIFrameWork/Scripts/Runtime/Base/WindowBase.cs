@@ -50,6 +50,10 @@ public class WindowBase : WindowBehavior
     }
     #endregion
 
+    public void HideWindow()
+    {
+        UIModule.Instance.HideWindow(Name);
+    }
     public void SetMaskVisible(bool isVisible)
     {
         if (!UISetting.Instance.SINGMASK_SYSTEM)

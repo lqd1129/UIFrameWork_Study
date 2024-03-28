@@ -5,6 +5,7 @@ using UnityEditor;
 using System.Linq;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json;
 
 public class GeneratorFindComponentTool : Editor
 {
@@ -30,6 +31,10 @@ public class GeneratorFindComponentTool : Editor
         }
         //解析窗口组件数据
         PresWindowNodeData(obj.transform, obj.name);
+        //存储字段名称
+        string datalistJson = JsonConvert.SerializeObject(objDataList);
+        PlayerPrefs.SetString(GeneratorConfig.OBJDATALIST_KEY,datalistJson);
+
         //生成cs脚本
         string csContnet = CreateCS(obj.name);
         //Debug.Log("CsConent:\n" + csContnet);
